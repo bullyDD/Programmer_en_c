@@ -7,17 +7,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <stdbool.h>
+
+#include "../math.h"
 
 // ICI : LES DECLARATIONS DES FONCTIONS
 
-float Addition(float nb1, float nb2);
-float Soustraction(float nb1, float nb2);
-float Multiplication(float nb1, float nb2);
-float Division(float nb1, float nb2);
 void Display(float result, int op, float nb1, float nb2);
-float* SaisirNumber(void);
+void SaisirNumber(float* nb1, float*  nb2);
+//float* SaisirAndReturnNumber(void);
 
 // Declarer des fonctions de soustraction, multiplication et division
 
@@ -28,9 +26,6 @@ int main(void) {
     // Appel de fonction = usage de la fonction
     printf("\n************* CALCULATRICE *************\n");
 
-    printf("\nFaites :\n\n");
-    printf("[1]\tAddition\n[2]\tSoustraction\n[3]\tMultiplication\n[4]\tDivision\n[5]\tQuitter\n");
-
     // Variables locales
     bool canQuit = false;
     int choice = 0;
@@ -40,43 +35,50 @@ int main(void) {
 
     while(!canQuit) {
         
-        printf(">");
+        printf("\nFaites :\n\n");
+        printf("[1]\tAddition\n[2]\tSoustraction\n[3]\tMultiplication\n[4]\tDivision\n[5]\tQuitter\n");
+
+        printf("\n>");
         scanf("%d", &choice);
+        printf("\n");
 
         switch (choice)
         {
             case 1:
                 // Addition
+                //float *p = SaisirAndReturnNumber();
+                //nb1 = *p;
+                //nb2 = *(p+1);
+                
+                SaisirNumber(&nb1, &nb2);
 
-                printf("Entrez nombre 1 : ");
-                scanf("%f", &nb1);
-                printf("Entrez nombre 2 : ");
-                scanf("%f", &nb2);
-
-                // Appel à la fonction
+                // Appel de fonction dans un appel de fonction :
+                // du moment que l'appel de Addition correspond à la 
+                // déclaration de la fonction Display
                 Display(Addition(nb1, nb2), choice, nb1, nb2);
-
                 break;
             case 2:
+                SaisirNumber(&nb1, &nb2);
+                Display(Soustraction(nb1, nb2), choice, nb1, nb2);
                 break;
             case 3:
+                SaisirNumber(&nb1, &nb2);
+                Display(Multiplication(nb1, nb2), choice, nb1, nb2);
                 break;
             case 4:
+                SaisirNumber(&nb1, &nb2);
+                Display(Division(nb1, nb2), choice, nb1, nb2);
                 break;
             case 5:
                 canQuit = true;
+                printf("Fin du programme....\n\n");
                 break;
             default:
+                printf("Pas d\'operation disponible.Ressayez!\n\n");
                 break;
         }
     }
     return 0;
-}
-
-
-//  DEFINITION DES FONCTIONS
-float Addition(float nb1, float nb2) {
-    return nb1 + nb2;
 }
 
 
@@ -87,13 +89,39 @@ void Display(float result, int op, float nb1, float nb2) {
         case 1:
             printf("%.2f + %.2f = %.2f\n", nb1, nb2, result);
             break;
-        
+        case 2:
+            printf("%.2f - %.2f = %.2f\n", nb1, nb2, result);
+            break;
+        case 3:
+            printf("%.2f x %.2f = %.2f\n", nb1, nb2, result);
+            break;
+        case 4:
+            printf("%.2f / %.2f = %.2f\n", nb1, nb2, result);
+            break;
         default:
             break;
     }
 }
 
 
-float* SaisirNumber(void) {
-    
+void SaisirNumber(float* nb1, float*  nb2) {
+ 
+    printf("Entrez nombre 1 : ");
+    scanf("%f", nb1);
+    printf("\n");
+    printf("Entrez nombre 2 : ");
+    scanf("%f", nb2);
+    printf("\n");
+
 }
+
+/*
+float* SaisirAndReturnNumber(void) {
+    float numbers[2];
+
+    printf("Entrez nombre 1 : ");scanf("%f", &numbers[0]);printf("\n");
+    printf("Entrez nombre 2 : ");scanf("%f", &numbers[1]);printf("\n");
+
+    return numbers;
+}
+*/
